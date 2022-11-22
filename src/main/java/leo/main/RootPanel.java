@@ -2,14 +2,16 @@ package leo.main;
 
 import leo.main.dictionary.Dictionary;
 import leo.main.dictionary.WordEntity;
-import leo.main.setting.theme.ThemeFactory;
+import leo.main.setting.theme.Theme;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.*;
-import java.util.List;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RootPanel extends JComponent implements Runnable {
@@ -113,7 +115,7 @@ public class RootPanel extends JComponent implements Runnable {
         super.paintComponent(gg);
         Graphics2D g = (Graphics2D) gg;
 
-        g.setBackground(ThemeFactory.theme().getBackground());
+        g.setBackground(Theme.getTheme().getBackground());
         g.clearRect(0, 0, getWidth(), getHeight());
         g.setFont(new Font("Courier New", Font.BOLD, 24));
         g.setStroke(new BasicStroke(2));

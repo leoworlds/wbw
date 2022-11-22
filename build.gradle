@@ -24,6 +24,8 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0'
 
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+
+    implementation 'commons-codec:commons-codec:1.15'
 }
 
 test {

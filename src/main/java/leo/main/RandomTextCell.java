@@ -1,7 +1,7 @@
 package leo.main;
 
 import leo.main.dictionary.WordEntity;
-import leo.main.setting.theme.ThemeFactory;
+import leo.main.setting.theme.Theme;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -18,11 +18,13 @@ public class RandomTextCell {
 
     private WordEntity wordEntity;
 
-    private Color borderColor = ThemeFactory.theme().getBorderColor();
-    private Color textColor = ThemeFactory.theme().getTextColor();
+    private Color borderColor = Theme.getTheme().getBorderColor();
+    private Color textColor = Theme.getTheme().getTextColor();
 
-    private Color doneBorderColor = ThemeFactory.theme().getDoneBorderColor();
-    private Color doneTextColor = ThemeFactory.theme().getDoneTextColor();
+    private Color doneBorderColor = Theme.getTheme().getDoneBorderColor();
+    private Color doneTextColor = Theme.getTheme().getDoneTextColor();
+
+    private Color typeTextColor = Theme.getTheme().getTypeTextColor();
 
     private boolean done = false;
 
@@ -69,7 +71,7 @@ public class RandomTextCell {
         g.drawString(getText(), x, y + (int)fRect.getHeight() - BORDER/2);
 
         if (!done && typed != null && typed.length() > 0) {
-            g.setColor(Color.red);
+            g.setColor(typeTextColor);
             g.drawString(typed, x, y + (int)fRect.getHeight() - BORDER/2);
         }
     }

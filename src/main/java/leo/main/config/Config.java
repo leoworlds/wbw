@@ -23,11 +23,15 @@ public class Config {
             props = new Properties();
             props.load(this.getClass().getResourceAsStream(FILE_NAME));
         } catch (IOException e) {
-            throw new RuntimeException("Config can't be loaded from the file " + FILE_NAME);
+            throw new IllegalStateException("Config can't be loaded from the file " + FILE_NAME);
         }
     }
 
     public Properties getProps() {
         return props;
+    }
+
+    public static Integer getComplete() {
+        return Integer.valueOf(Config.config().getProps().getProperty("complete", "100"));
     }
 }

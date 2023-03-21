@@ -1,7 +1,9 @@
 package leo.main;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import leo.main.config.Config;
 import leo.main.dictionary.file.FileDictionary;
+import leo.main.dictionary.mix.MixDictionary;
+import leo.main.dictionary.my.CharDictionary;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
@@ -11,7 +13,7 @@ public class Main {
 
     private static final String TITLE = "Word by Word";
 
-    public static void main(String ... strings) throws JsonProcessingException {
+    public static void main(String ... strings) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame(TITLE);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -19,16 +21,17 @@ public class Main {
             frame.setVisible(true);
             frame.setLocationRelativeTo(null);
 
-            RootPanel rootPanel = new RootPanel(new FileDictionary());
+            RootPanel rootPanel = new RootPanel(new MixDictionary(new CharDictionary(), new FileDictionary()));
 
-            rootPanel.addCompletedListener(e -> frame.setTitle((e.completed() <= 0) ? TITLE :
-                    TITLE + "  +" + e.completed() + " -" +
-                            (e.missed() + e.mistake()) + " " +
-                            100*e.completed() / (e.missed() + e.mistake() + e.completed()) + "%"));
+            rootPanel.addCompletedListener(e -> {
+                frame.setTitle((e.completed() <= 0 && e.mistake() == 0) ? TITLE : TITLE + "  +" + e.getStatistic());
+
+                if (e.completed() >= Config.getComplete()) {
+                    System.exit(0);
+                }
+            });
 
             frame.add(rootPanel);
-//                frame.add(new RootPanel(new WordnikDictionary()));
-//                frame.add(new RootPanel(new MyDictionary()));
             frame.addWindowFocusListener(new WindowFocusListener() {
                 @Override
                 public void windowGainedFocus(WindowEvent e) {

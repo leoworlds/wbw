@@ -16,6 +16,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RootPanel extends JComponent implements Runnable {
 
+    private static final Font FONT = new Font("Courier New", Font.BOLD, 24);
+    private static final Stroke STROKE = new BasicStroke(2);
+
     private Queue<CompletedListener> completedListenerList = new LinkedList<>();
 
     private Dictionary dictionary;
@@ -117,8 +120,8 @@ public class RootPanel extends JComponent implements Runnable {
 
         g.setBackground(Theme.getTheme().getBackground());
         g.clearRect(0, 0, getWidth(), getHeight());
-        g.setFont(new Font("Courier New", Font.BOLD, 24));
-        g.setStroke(new BasicStroke(2));
+        g.setFont(FONT);
+        g.setStroke(STROKE);
 
         cells.forEach(c -> c.draw(g));
 
@@ -129,9 +132,7 @@ public class RootPanel extends JComponent implements Runnable {
 
     @Override
     public void run() {
-
         while (true) {
-
             if (isPause) {
                 continue;
             }
@@ -149,7 +150,6 @@ public class RootPanel extends JComponent implements Runnable {
                 return;
             }
 
-
             Iterator<RandomTextCell> iterator = cells.iterator();
             while (iterator.hasNext()) {
                 RandomTextCell cell = iterator.next();
@@ -159,13 +159,10 @@ public class RootPanel extends JComponent implements Runnable {
                     iterator.remove();
                     System.exit(0);
                     event();
-                    //                    Toolkit.getDefaultToolkit().beep();
                 } else {
                     cell.setY(cell.getY() + 1);
                 }
             }
-
-            //            cells.forEach(c -> c.setY(c.getY() + 1));
 
             repaint();
             counter++;

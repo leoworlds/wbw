@@ -1,6 +1,7 @@
 package leo.main;
 
 import leo.main.config.Config;
+import leo.main.dictionary.Dictionary;
 import leo.main.dictionary.file.FileDictionary;
 import leo.main.dictionary.mix.MixDictionary;
 import leo.main.dictionary.my.CharDictionary;
@@ -14,6 +15,8 @@ public class Main {
     private static final String TITLE = "Word by Word";
 
     public static void main(String ... strings) {
+        Dictionary dictionary = new MixDictionary(new CharDictionary(), new FileDictionary());
+
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame(TITLE);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,7 +24,7 @@ public class Main {
             frame.setVisible(true);
             frame.setLocationRelativeTo(null);
 
-            RootPanel rootPanel = new RootPanel(new MixDictionary(new CharDictionary(), new FileDictionary()));
+            RootPanel rootPanel = new RootPanel(dictionary);
 
             rootPanel.addCompletedListener(e -> {
                 frame.setTitle((e.completed() <= 0 && e.mistake() == 0) ? TITLE : TITLE + "  +" + e.getStatistic());

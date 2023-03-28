@@ -30,17 +30,16 @@ public class TextPanel extends JComponent {
         g.setFont(FontConfig.getFontConfig().getPlainTextFont());
         g.setColor(Theme.getTheme().getTextColor());
 
-
-        Rectangle2D spaceRect = g.getFont().getStringBounds(SPACE, FONT_RENDER_CONTEXT);
+        Word space = new Word(SPACE, g.getFont().getStringBounds(SPACE, FONT_RENDER_CONTEXT));
 
         List<String> lines = new ArrayList<>();
 
         StringBuilder sb = new StringBuilder();
-        int lineWidth = 0;
+        double lineWidth = 0;
 
         for (Word word : splitWords(g, text)) {
-            lineWidth += spaceRect.getWidth() + word.rect.getWidth();
-            if (lineWidth > getWidth()) {
+            lineWidth += space.getWidth() + word.getWidth();
+            if (lineWidth >= getWidth()) {
                 lines.add(sb.toString());
                 sb = new StringBuilder();
                 lineWidth = 0;
@@ -68,5 +67,9 @@ public class TextPanel extends JComponent {
 
         String text;
         Rectangle2D rect;
+
+        double getWidth() {
+            return rect.getWidth();
+        }
     }
 }

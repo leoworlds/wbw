@@ -7,11 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TextPanel extends JComponent {
 
@@ -30,46 +27,28 @@ public class TextPanel extends JComponent {
         g.setFont(FontConfig.getFontConfig().getPlainTextFont());
         g.setColor(Theme.getTheme().getTextColor());
 
-        Word space = new Word(SPACE, g.getFont().getStringBounds(SPACE, FONT_RENDER_CONTEXT));
-
         List<String> lines = new ArrayList<>();
 
-        StringBuilder sb = new StringBuilder();
-        double lineWidth = 0;
+        String line = "";
+        String newLine;
 
-        for (Word word : splitWords(g, text)) {
-            lineWidth += space.getWidth() + word.getWidth();
-            if (lineWidth >= getWidth()) {
-                lines.add(sb.toString());
-                sb = new StringBuilder();
-                lineWidth = 0;
+        for (String word : text.split(SPACE)) {
+            newLine = line + word + SPACE;
+
+            double newLineWidth = g.getFont().getStringBounds(newLine, FONT_RENDER_CONTEXT).getWidth();
+
+            if (newLineWidth > getWidth()) {
+                lines.add(line);
+                line = word + SPACE;
+            } else {
+                line = newLine;
             }
-            sb.append(SPACE).append(word.text);
         }
+
+        lines.add(line);
 
         for (int i = 0; i < lines.size(); i++) {
             g.drawString(lines.get(i), 0, 40 + i*30);
-        }
-    }
-
-    private static List<Word> splitWords(Graphics2D g, String text) {
-        return Arrays.stream(text.split(SPACE))
-                .map(word -> new Word(word, g.getFont().getStringBounds(word, FONT_RENDER_CONTEXT)))
-                .collect(Collectors.toList());
-    }
-
-    private static class Word {
-
-        Word(String text, Rectangle2D rect) {
-            this.text = text;
-            this.rect = rect;
-        }
-
-        String text;
-        Rectangle2D rect;
-
-        double getWidth() {
-            return rect.getWidth();
         }
     }
 }

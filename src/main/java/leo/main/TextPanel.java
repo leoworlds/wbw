@@ -35,17 +35,17 @@ public class TextPanel extends JComponent {
 
         List<String> lines = new ArrayList<>();
 
-        String line = "";
+        StringBuilder sb = new StringBuilder();
         int lineWidth = 0;
 
         for (Word word : splitWords(g, text)) {
             lineWidth += spaceRect.getWidth() + word.rect.getWidth();
             if (lineWidth > getWidth()) {
-                lines.add(line);
-                line = "";
+                lines.add(sb.toString());
+                sb = new StringBuilder();
                 lineWidth = 0;
             }
-            line += SPACE + word.text;
+            sb.append(SPACE).append(word.text);
         }
 
         for (int i = 0; i < lines.size(); i++) {

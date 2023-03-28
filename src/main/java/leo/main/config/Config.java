@@ -9,7 +9,7 @@ public class Config {
 
     private static Config config;
 
-    private Properties props;
+    private Props props;
 
     public static Config config() {
         if (config == null) {
@@ -20,14 +20,14 @@ public class Config {
 
     private Config() {
         try {
-            props = new Properties();
+            props = new Props();
             props.load(this.getClass().getResourceAsStream(FILE_NAME));
         } catch (IOException e) {
             throw new IllegalStateException("Config can't be loaded from the file " + FILE_NAME);
         }
     }
 
-    public Properties getProps() {
+    public Props getProps() {
         return props;
     }
 

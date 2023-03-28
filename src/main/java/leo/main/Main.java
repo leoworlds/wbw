@@ -5,8 +5,10 @@ import leo.main.dictionary.Dictionary;
 import leo.main.dictionary.file.FileDictionary;
 import leo.main.dictionary.mix.MixDictionary;
 import leo.main.dictionary.my.CharDictionary;
+import leo.main.setting.theme.Theme;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
@@ -21,6 +23,10 @@ public class Main {
             JFrame frame = new JFrame(TITLE);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(Util.WIDTH, Util.HEIGHT);
+
+            frame.getContentPane().setBackground(Theme.getTheme().getBackground());
+            frame.getContentPane().add(new TextPanel(), BorderLayout.CENTER);
+
             frame.setVisible(true);
             frame.setLocationRelativeTo(null);
 
@@ -34,7 +40,7 @@ public class Main {
                 }
             });
 
-            frame.add(rootPanel);
+//            frame.add(rootPanel);
             frame.addWindowFocusListener(new WindowFocusListener() {
                 @Override
                 public void windowGainedFocus(WindowEvent e) {

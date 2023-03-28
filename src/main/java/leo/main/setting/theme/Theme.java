@@ -1,13 +1,17 @@
 package leo.main.setting.theme;
 
+import leo.main.config.Config;
 import lombok.Data;
 
 import java.awt.*;
-
-import static leo.main.Util.getColor;
+import java.util.Properties;
 
 @Data
 public class Theme {
+
+    private static final String THEME = "theme";
+    private static final String DOT = ".";
+
     private static Theme theme;
 
     private Color background = getColor("background");
@@ -23,5 +27,10 @@ public class Theme {
         }
 
         return theme;
+    }
+
+    public static Color getColor(String name) {
+        Properties props  = Config.config().getProps();
+        return Color.decode(props.getProperty(THEME + DOT + props.getProperty(THEME) + DOT + name));
     }
 }

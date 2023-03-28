@@ -2,6 +2,7 @@ package leo.main;
 
 import leo.main.dictionary.Dictionary;
 import leo.main.dictionary.WordEntity;
+import leo.main.setting.theme.FontConfig;
 import leo.main.setting.theme.Theme;
 
 import javax.swing.*;
@@ -16,7 +17,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RootPanel extends JComponent implements Runnable {
 
-    private static final Font FONT = new Font("Courier New", Font.BOLD, 24);
     private static final Stroke STROKE = new BasicStroke(2);
 
     private Queue<CompletedListener> completedListenerList = new LinkedList<>();
@@ -120,7 +120,7 @@ public class RootPanel extends JComponent implements Runnable {
 
         g.setBackground(Theme.getTheme().getBackground());
         g.clearRect(0, 0, getWidth(), getHeight());
-        g.setFont(FONT);
+        g.setFont(FontConfig.getFontConfig().getPlainTextFont());
         g.setStroke(STROKE);
 
         cells.forEach(c -> c.draw(g));
@@ -157,7 +157,6 @@ public class RootPanel extends JComponent implements Runnable {
                     missed.add(cell);
                     cell.cleanTyped();
                     iterator.remove();
-                    System.exit(0);
                     event();
                 } else {
                     cell.setY(cell.getY() + 1);

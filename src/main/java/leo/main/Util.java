@@ -1,10 +1,13 @@
 package leo.main;
 
 import leo.main.setting.theme.FontConfig;
+import lombok.SneakyThrows;
 
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -54,5 +57,10 @@ public final class Util {
 
     public static Rectangle2D getStringBounds(String string) {
         return FontConfig.getFontConfig().getPlainTextFont().getStringBounds(string, FONT_RENDER_CONTEXT);
+    }
+
+    @SneakyThrows
+    public static String readFile() {
+        return Files.readAllLines(Paths.get("src/main/resources/text.txt")).get(0);
     }
 }

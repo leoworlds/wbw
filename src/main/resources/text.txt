@@ -1,0 +1,1 @@
+I have a public repository on GitHub. I want to replicate/copy it and work on a new project based on this repository, but I don't want to affect how it is now. I tried forking it using the GitHub UI but it didn't do anything.

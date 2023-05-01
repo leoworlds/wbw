@@ -14,9 +14,12 @@ import java.awt.event.WindowFocusListener;
 public class Main {
 
     private static final String TITLE = "Word by Word";
+    private static final boolean isSymbol = Boolean.parseBoolean(Config.config().getProps().getProperty("symbol", "true"));
 
     public static void main(String ... strings) {
-        Dictionary dictionary = new MixDictionary(new CharDictionary(), new FileDictionary());
+        Dictionary dictionary = isSymbol
+                ? new MixDictionary(new CharDictionary(), new FileDictionary())
+                : new FileDictionary();
 
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame(TITLE);

@@ -1,6 +1,7 @@
 package leo.main.dictionary.file;
 
 import leo.main.Util;
+import leo.main.config.Config;
 import leo.main.dictionary.Dictionary;
 import leo.main.dictionary.WordEntity;
 import org.w3c.dom.Document;
@@ -11,22 +12,33 @@ import org.w3c.dom.NodeList;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class FileDictionary implements Dictionary {
 
     private static final Pattern PATTERN_PARSE_DEFINITION = Pattern.compile("(?<=&quot;)(.*)(?=&quot;)");
 
     private static final String FILE_NAME = "/slovnyk_en-ru.xml";
+    private static final String REGEX = Config.config().getProps().getProperty("regex");
 
     private int current = 0;
     private List<WordEntity> words;
 
     public FileDictionary() {
         try {
-            words = parse();
+
+            if (REGEX == null || REGEX.isEmpty()) {
+                words = parse();
+            } else {
+                words = parse().stream()
+                        .filter(word -> !word.getWord().matches(REGEX))
+                        .collect(Collectors.toList());
+            }
+            System.out.println("words.size=" + words.size());
         } catch (Exception e) {
             e.printStackTrace();
         }

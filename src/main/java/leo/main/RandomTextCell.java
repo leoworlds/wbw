@@ -37,7 +37,8 @@ public class RandomTextCell {
 
     public RandomTextCell(WordEntity wordEntity) {
         this.wordEntity = wordEntity;
-        randomDefinition = Util.randomInt(0, wordEntity.getDefinitions().size());
+        int size = wordEntity.getDefinitions().size();
+        randomDefinition = Util.randomInt(0, size == 0 ? 1 : size);
     }
 
     void done() {
@@ -45,7 +46,15 @@ public class RandomTextCell {
     }
 
     private String getText() {
-        return done ? wordEntity.getDefinitions().get(randomDefinition) : wordEntity.getWord();
+        if (done) {
+            if (wordEntity.getDefinitions() == null || wordEntity.getDefinitions().isEmpty()) {
+                return "";
+            } else {
+                return wordEntity.getDefinitions().get(randomDefinition);
+            }
+        } else {
+            return wordEntity.getWord();
+        }
     }
 
     public void draw(Graphics2D g) {

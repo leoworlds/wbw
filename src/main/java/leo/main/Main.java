@@ -8,7 +8,6 @@ import leo.main.dictionary.my.CharDictionary;
 import leo.main.setting.theme.Theme;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
@@ -23,16 +22,16 @@ public class Main {
             JFrame frame = new JFrame(TITLE);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(Util.WIDTH, Util.HEIGHT);
-
             frame.getContentPane().setBackground(Theme.getTheme().getBackground());
-            frame.getContentPane().add(new TextPanel(), BorderLayout.CENTER);
 
             frame.setVisible(true);
             frame.setLocationRelativeTo(null);
 
-            RootPanel rootPanel = new RootPanel(dictionary);
+            TypePanel typePanel = Config.config().getProps().getProperty("mode", 0) == 0
+                    ? new FallWordPanel(dictionary)
+                    : new TextPanel(Config.config().getProps().getProperty("file"));
 
-            rootPanel.addCompletedListener(e -> {
+            typePanel.addCompletedListener(e -> {
                 frame.setTitle((e.completed() <= 0 && e.mistake() == 0) ? TITLE : TITLE + "  +" + e.getStatistic());
 
                 if (e.completed() >= Config.getComplete()) {
@@ -40,18 +39,19 @@ public class Main {
                 }
             });
 
-//            frame.add(rootPanel);
             frame.addWindowFocusListener(new WindowFocusListener() {
                 @Override
                 public void windowGainedFocus(WindowEvent e) {
-                    rootPanel.setPause(false);
+                    typePanel.setPause(false);
                 }
 
                 @Override
                 public void windowLostFocus(WindowEvent e) {
-                    rootPanel.setPause(true);
+                    typePanel.setPause(true);
                 }
             });
+
+            frame.add(typePanel);
         });
     }
 }

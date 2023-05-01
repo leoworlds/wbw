@@ -11,14 +11,16 @@ import java.util.List;
 
 import static leo.main.Util.readFile;
 
-public class TextPanel extends JComponent {
+public class TextPanel extends TypePanel {
 
-    String text1 = "0000000000 1111111111 2222222222 333 4444444444 5555 666666666666666666666666666666666 777 88888888888888888888888 99999";
-    String text = readFile();
+    final String text;
 
     String typed = "";
 
-    public TextPanel() {
+    public TextPanel(String fileName) {
+
+        text = readFile(fileName);
+
         setFocusable(true);
         requestFocusInWindow();
 
@@ -35,8 +37,6 @@ public class TextPanel extends JComponent {
                 }
 
                 repaint();
-
-                System.out.println(typed);
             }
         });
     }
@@ -57,5 +57,20 @@ public class TextPanel extends JComponent {
         for (int i = 0; i < typedLines.size(); i++) {
             g.drawString(typedLines.get(i), 10, 40 + i*30);
         }
+    }
+
+    @Override
+    public void addCompletedListener(CompletedListener completedListener) {
+        //todo
+    }
+
+    @Override
+    public boolean isPause() {
+        return false;
+    }
+
+    @Override
+    public void setPause(boolean pause) {
+        //todo
     }
 }

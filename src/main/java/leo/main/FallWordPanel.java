@@ -5,7 +5,6 @@ import leo.main.dictionary.WordEntity;
 import leo.main.setting.theme.FontConfig;
 import leo.main.setting.theme.Theme;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -15,7 +14,7 @@ import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class RootPanel extends JComponent implements Runnable {
+public class FallWordPanel extends TypePanel implements Runnable {
 
     private static final Stroke STROKE = new BasicStroke(2);
 
@@ -34,15 +33,17 @@ public class RootPanel extends JComponent implements Runnable {
 
     private volatile boolean isPause;
 
+    @Override
     public boolean isPause() {
         return isPause;
     }
 
+    @Override
     public void setPause(boolean pause) {
         isPause = pause;
     }
 
-    public RootPanel(Dictionary dictionary) {
+    public FallWordPanel(Dictionary dictionary) {
 
         this.dictionary = dictionary;
 
@@ -168,6 +169,7 @@ public class RootPanel extends JComponent implements Runnable {
         }
     }
 
+    @Override
     public void addCompletedListener(CompletedListener completedListener) {
         completedListenerList.add(completedListener);
     }

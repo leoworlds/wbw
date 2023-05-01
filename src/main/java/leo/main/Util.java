@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 public final class Util {
-    private Util() {};
+    private Util() {}
 
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 700;
@@ -60,7 +60,8 @@ public final class Util {
     }
 
     @SneakyThrows
-    public static String readFile() {
-        return Files.readAllLines(Paths.get("src/main/resources/text.txt")).get(0);
+    public static String readFile(String name) {
+        List<String> lines = Files.readAllLines(Paths.get("src/main/resources/" + name));
+        return String.join(SPACE, lines);
     }
 }

@@ -41,7 +41,7 @@ public class Main {
                     typePanel.setPause(true);
                     new Thread(() -> {
                         try {
-                            Thread.sleep(3000);
+                            Thread.sleep(Config.config().getProps().getProperty("delay.before.exit", 0));
                             System.exit(0);
                         } catch (InterruptedException ex) {
                             Thread.currentThread().interrupt();

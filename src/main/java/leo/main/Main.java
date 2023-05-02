@@ -38,7 +38,15 @@ public class Main {
                 frame.setTitle((e.completed() <= 0 && e.mistake() == 0) ? TITLE : TITLE + "  +" + e.getStatistic());
 
                 if (e.completed() >= Config.getComplete()) {
-                    System.exit(0);
+                    typePanel.setPause(true);
+                    new Thread(() -> {
+                        try {
+                            Thread.sleep(3000);
+                            System.exit(0);
+                        } catch (InterruptedException ex) {
+                            Thread.currentThread().interrupt();
+                        }
+                    }).start();
                 }
             });
 

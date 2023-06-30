@@ -30,7 +30,7 @@ public class FileDictionary implements Dictionary {
 
     public FileDictionary() {
         try {
-
+            long startTimeMillis = System.currentTimeMillis();
             if (REGEX == null || REGEX.isEmpty()) {
                 words = parse();
             } else {
@@ -39,6 +39,8 @@ public class FileDictionary implements Dictionary {
                         .collect(Collectors.toList());
             }
             System.out.println("words.size=" + words.size());
+            System.out.println("load.time=" + (System.currentTimeMillis() - startTimeMillis));
+
         } catch (Exception e) {
             e.printStackTrace();
         }

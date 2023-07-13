@@ -24,7 +24,6 @@ public class TextPanel extends TypePanel {
     private int position;
 
     private long startTime;
-    private long speed;
 
     public TextPanel(String fileName) {
 
@@ -36,11 +35,11 @@ public class TextPanel extends TypePanel {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                char newChar = e.getKeyChar() == KeyEvent.VK_ENTER ? ' ' : e.getKeyChar();
-
-                if (position == 0) {
+                if (position < 1) {
                     startTime = System.currentTimeMillis() - 400;
                 }
+
+                char newChar = e.getKeyChar() == KeyEvent.VK_ENTER ? ' ' : e.getKeyChar();
 
                 String newTyped = typed + newChar;
                 if (text.startsWith(newTyped)) {
@@ -59,11 +58,6 @@ public class TextPanel extends TypePanel {
                     mistakes++;
                     event();
                 }
-
-                long now = System.currentTimeMillis();
-                System.out.println("start=" + startTime);
-                System.out.println("now=" + now);
-                speed = 1000*60*position / (now - startTime);
 
                 repaint();
             }
@@ -129,7 +123,7 @@ public class TextPanel extends TypePanel {
 
             @Override
             public int speed() {
-                return (int)(speed);
+                return (int)(1000*60*position / (System.currentTimeMillis() - startTime));
             }
         }));
     }

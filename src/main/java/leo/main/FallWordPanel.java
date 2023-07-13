@@ -18,8 +18,6 @@ public class FallWordPanel extends TypePanel implements Runnable {
 
     private static final Stroke STROKE = new BasicStroke(2);
 
-    private Queue<CompletedListener> completedListenerList = new LinkedList<>();
-
     private Dictionary dictionary;
     private Queue<RandomTextCell> cells = new ConcurrentLinkedQueue<>();
     private Queue<WordEntity> wordEntities = new ConcurrentLinkedQueue<>();
@@ -167,10 +165,5 @@ public class FallWordPanel extends TypePanel implements Runnable {
             repaint();
             counter++;
         }
-    }
-
-    @Override
-    public void addCompletedListener(CompletedListener completedListener) {
-        completedListenerList.add(completedListener);
     }
 }

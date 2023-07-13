@@ -17,6 +17,8 @@ public class TextPanel extends TypePanel {
 
     String typed = "";
 
+    private int mistakes = 0;
+
     public TextPanel(String fileName) {
 
         text = readFile(fileName);
@@ -34,6 +36,8 @@ public class TextPanel extends TypePanel {
                     typed = newTyped;
                 } else {
                     Toolkit.getDefaultToolkit().beep();
+                    mistakes++;
+                    event();
                 }
 
                 repaint();
@@ -60,11 +64,6 @@ public class TextPanel extends TypePanel {
     }
 
     @Override
-    public void addCompletedListener(CompletedListener completedListener) {
-        //todo
-    }
-
-    @Override
     public boolean isPause() {
         return false;
     }
@@ -72,5 +71,24 @@ public class TextPanel extends TypePanel {
     @Override
     public void setPause(boolean pause) {
         //todo
+    }
+
+    private void event() {
+        completedListenerList.forEach(completedListener -> completedListener.completed(new CompletedEvent() {
+            @Override
+            public int completed() {
+                return 0;
+            }
+
+            @Override
+            public int missed() {
+                return 0;
+            }
+
+            @Override
+            public int mistake() {
+                return mistakes;
+            }
+        }));
     }
 }

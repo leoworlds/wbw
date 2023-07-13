@@ -1,7 +1,5 @@
 package leo.main;
 
-import leo.main.dictionary.WordEntity;
-import leo.main.dictionary.file.FileDictionary;
 import leo.main.setting.theme.FontConfig;
 import leo.main.setting.theme.Theme;
 
@@ -22,8 +20,11 @@ public class TextPanel extends TypePanel {
 
     int typedWordCounter = 0;
 
-    private int mistakes = 0;
-    private int position = 0;
+    private int mistakes ;
+    private int position;
+
+    private long startTime;
+    private long speed;
 
     public TextPanel(String fileName) {
 
@@ -36,6 +37,10 @@ public class TextPanel extends TypePanel {
             @Override
             public void keyTyped(KeyEvent e) {
                 char newChar = e.getKeyChar() == KeyEvent.VK_ENTER ? ' ' : e.getKeyChar();
+
+                if (position == 0) {
+                    startTime = System.currentTimeMillis() - 400;
+                }
 
                 String newTyped = typed + newChar;
                 if (text.startsWith(newTyped)) {
@@ -55,6 +60,11 @@ public class TextPanel extends TypePanel {
                     event();
                 }
 
+                long now = System.currentTimeMillis();
+                System.out.println("start=" + startTime);
+                System.out.println("now=" + now);
+                speed = 1000*60*position / (now - startTime);
+
                 repaint();
             }
         });
@@ -71,6 +81,9 @@ public class TextPanel extends TypePanel {
             g.drawString(lines.get(i), 10, 40 + i*30);
         }
 
+        if (position >= text.length()) {
+            return;
+        }
         char nextChar = text.charAt(position);
         nextChar = Objects.equals(nextChar, ' ') ? '\u0fd5' : nextChar;
 
@@ -112,6 +125,11 @@ public class TextPanel extends TypePanel {
             @Override
             public int mistake() {
                 return mistakes;
+            }
+
+            @Override
+            public int speed() {
+                return (int)(speed);
             }
         }));
     }

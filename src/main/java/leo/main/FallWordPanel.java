@@ -109,6 +109,11 @@ public class FallWordPanel extends TypePanel implements Runnable {
             public int mistake() {
                 return mistakes;
             }
+
+            @Override
+            public int speed() {
+                return 0;
+            }
         }));
     }
 

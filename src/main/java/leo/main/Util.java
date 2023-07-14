@@ -60,8 +60,7 @@ public final class Util {
     }
 
     @SneakyThrows
-    public static String readFile(String name) {
-        List<String> lines = Files.readAllLines(Paths.get("src/main/resources/" + name));
-        return String.join(SPACE, lines);
+    public static List<String> readFile(String name) {
+        return Files.readAllLines(Paths.get("src/main/resources/" + name));
     }
 }

@@ -1,19 +1,21 @@
 package leo.main;
 
+import leo.main.config.Config;
 import leo.main.setting.theme.FontConfig;
 import leo.main.setting.theme.Theme;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 
 import static leo.main.Util.readFile;
 
 public class TextPanel extends TypePanel {
 
-    final String text;
+    private List<String> texts;
+    private String text;
 
     String typed = "";
     String typedWord = "";
@@ -26,9 +28,14 @@ public class TextPanel extends TypePanel {
 
     private long startTime;
 
+    private int level;
+
     public TextPanel(String fileName) {
 
-        text = readFile(fileName);
+        level = Config.config().getProps().getProperty("level", 0);
+
+        texts = readFile(fileName);
+        text = texts.get(level);
 
         setFocusable(true);
         requestFocusInWindow();
@@ -61,6 +68,14 @@ public class TextPanel extends TypePanel {
                         mistakePosition = position;
                     }
                     event();
+                }
+
+                if (text.length() <= position && texts.size() > level + 1) {
+                    if (mistakeCounter == 0) {
+                        text = texts.get(++level);
+                    }
+                    mistakePosition = mistakeCounter = position = typedWordCounter = 0;
+                    typedWord = typed = "";
                 }
 
                 repaint();

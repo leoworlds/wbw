@@ -20,8 +20,9 @@ public class TextPanel extends TypePanel {
 
     int typedWordCounter = 0;
 
-    private int mistakes ;
+    private int mistakeCounter;
     private int position;
+    private int mistakePosition;
 
     private long startTime;
 
@@ -55,7 +56,10 @@ public class TextPanel extends TypePanel {
                     }
                 } else {
                     Toolkit.getDefaultToolkit().beep();
-                    mistakes++;
+                    if (mistakePosition != position) {
+                        mistakeCounter++;
+                        mistakePosition = position;
+                    }
                     event();
                 }
 
@@ -118,7 +122,7 @@ public class TextPanel extends TypePanel {
 
             @Override
             public int mistake() {
-                return mistakes;
+                return mistakeCounter;
             }
 
             @Override

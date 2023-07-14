@@ -32,7 +32,7 @@ public class TextPanel extends TypePanel {
 
     public TextPanel(String fileName) {
 
-        level = Config.config().getProps().getProperty("level", 0);
+        level = Config.config().getProps().getProperty("level", 1) - 1;
 
         texts = readFile(fileName);
         text = texts.get(level);

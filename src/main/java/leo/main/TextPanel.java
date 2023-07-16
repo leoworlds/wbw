@@ -83,35 +83,6 @@ public class TextPanel extends TypePanel {
         });
     }
 
-    public void paint1(Graphics gg) {
-        Graphics2D g = (Graphics2D) gg;
-        g.setFont(FontConfig.getFontConfig().getPlainTextFont());
-
-        g.setColor(Theme.getTheme().getTextColor());
-        List<String> lines = Util.split(text, getWidth());
-        for (int i = 0; i < lines.size(); i++) {
-            g.drawString(lines.get(i), 10, 40 + i*30);
-        }
-
-        if (position >= text.length()) {
-            return;
-        }
-        char nextChar = text.charAt(position);
-        nextChar = Objects.equals(nextChar, ' ') ? '\u0fd5' : nextChar;
-
-        g.setColor(Color.red);
-        List<String> lines1 = Util.split(typed + nextChar, getWidth());
-        for (int i = 0; i < lines1.size(); i++) {
-            g.drawString(lines1.get(i), 10, 40 + i*30);
-        }
-
-        g.setColor(Theme.getTheme().getTypeTextColor());
-        List<String> typedLines = Util.split(typed, getWidth());
-        for (int i = 0; i < typedLines.size(); i++) {
-            g.drawString(typedLines.get(i), 10, 40 + i*30);
-        }
-    }
-
     @Override
     public void paint(Graphics gg) {
         Graphics2D g = (Graphics2D) gg;
@@ -129,6 +100,8 @@ public class TextPanel extends TypePanel {
             int y = 30 + i*30;
 
             for (int j = 0; j < string.length(); j++) {
+                char nextChar = string.charAt(j);
+
                 drawPosition++;
 
                 if (drawPosition > position + 1) {
@@ -137,9 +110,10 @@ public class TextPanel extends TypePanel {
                     g.setColor(Theme.getTheme().getTypeTextColor());
                 } else {
                     g.setColor(Color.RED);
+                    nextChar = Objects.equals(nextChar, ' ') ? '\u0fd5' : nextChar;
                 }
 
-                String sChar = String.valueOf(string.charAt(j));
+                String sChar = String.valueOf(nextChar);
                 g.drawString(sChar, x + j*(int)Util.getStringBounds(sChar).getWidth(), y);
             }
         }

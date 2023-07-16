@@ -83,8 +83,7 @@ public class TextPanel extends TypePanel {
         });
     }
 
-    @Override
-    public void paint(Graphics gg) {
+    public void paint1(Graphics gg) {
         Graphics2D g = (Graphics2D) gg;
         g.setFont(FontConfig.getFontConfig().getPlainTextFont());
 
@@ -110,6 +109,39 @@ public class TextPanel extends TypePanel {
         List<String> typedLines = Util.split(typed, getWidth());
         for (int i = 0; i < typedLines.size(); i++) {
             g.drawString(typedLines.get(i), 10, 40 + i*30);
+        }
+    }
+
+    @Override
+    public void paint(Graphics gg) {
+        Graphics2D g = (Graphics2D) gg;
+        g.setFont(FontConfig.getFontConfig().getPlainTextFont());
+
+        List<String> lines = Util.split(text, getWidth());
+
+        int drawPosition = 0;
+
+        for (int i = 0; i < lines.size(); i++) {
+            g.setColor(Theme.getTheme().getTextColor());
+
+            String string = lines.get(i);
+            int x = 10;
+            int y = 30 + i*30;
+
+            for (int j = 0; j < string.length(); j++) {
+                drawPosition++;
+
+                if (drawPosition > position + 1) {
+                    g.setColor(Theme.getTheme().getTextColor());
+                } else if (drawPosition < position + 1){
+                    g.setColor(Theme.getTheme().getTypeTextColor());
+                } else {
+                    g.setColor(Color.RED);
+                }
+
+                String sChar = String.valueOf(string.charAt(j));
+                g.drawString(sChar, x + j*(int)Util.getStringBounds(sChar).getWidth(), y);
+            }
         }
     }
 

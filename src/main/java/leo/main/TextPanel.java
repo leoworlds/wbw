@@ -7,6 +7,7 @@ import leo.main.setting.theme.Theme;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
 
@@ -102,6 +103,9 @@ public class TextPanel extends TypePanel {
             for (int j = 0; j < string.length(); j++) {
                 char nextChar = string.charAt(j);
 
+                String sChar = String.valueOf(nextChar);
+                Rectangle2D rect = Util.getStringBounds(sChar);
+
                 drawPosition++;
 
                 if (drawPosition > position + 1) {
@@ -110,11 +114,12 @@ public class TextPanel extends TypePanel {
                     g.setColor(Theme.getTheme().getTypeTextColor());
                 } else {
                     g.setColor(Color.RED);
-                    nextChar = Objects.equals(nextChar, ' ') ? '\u0fd5' : nextChar;
+                    g.drawRect(x + j*(int)rect.getWidth(), y-20, (int)rect.getWidth(), 30);
+                    g.setColor(Theme.getTheme().getTextColor());
                 }
 
-                String sChar = String.valueOf(nextChar);
-                g.drawString(sChar, x + j*(int)Util.getStringBounds(sChar).getWidth(), y);
+
+                g.drawString(sChar, x + j*(int)rect.getWidth(), y);
             }
         }
     }

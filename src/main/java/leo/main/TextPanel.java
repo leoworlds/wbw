@@ -97,8 +97,11 @@ public class TextPanel extends TypePanel {
             g.setColor(Theme.getTheme().getTextColor());
 
             String string = lines.get(i);
+
+            int h = (int)Util.getStringBounds(string).getHeight();
+
             int x = 10;
-            int y = 30 + i*30;
+            int y = h + i*h;
 
             for (int j = 0; j < string.length(); j++) {
                 char nextChar = string.charAt(j);
@@ -114,10 +117,9 @@ public class TextPanel extends TypePanel {
                     g.setColor(Theme.getTheme().getTypeTextColor());
                 } else {
                     g.setColor(Color.RED);
-                    g.drawRect(x + j*(int)rect.getWidth(), y-20, (int)rect.getWidth(), 30);
+                    g.drawRect(x + j*(int)rect.getWidth(), y-h+h/4, (int)rect.getWidth(), (int)rect.getHeight());
                     g.setColor(Theme.getTheme().getTextColor());
                 }
-
 
                 g.drawString(sChar, x + j*(int)rect.getWidth(), y);
             }

@@ -1,14 +1,27 @@
 package leo.main.dictionary.file;
 
-import leo.main.Util;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class UtilTest {
+import static leo.main.Util.getWord;
+import static leo.main.Util.withCapitalLetter;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class UtilTest {
 
     @Test
-    public void withCapitalLetter_test() {
-        Assertions.assertEquals("Test", Util.withCapitalLetter("teSt"));
+    void withCapitalLetter_test() {
+        assertEquals("Test", withCapitalLetter("teSt"));
     }
 
+    @Test void getWord_test_middle() {
+        assertEquals("asdfg", getWord("qwert asdfg zxcvb", 7));
+    }
+
+    @Test void getWord_test_first() {
+        assertEquals("qwert", getWord("qwert asdfg zxcvb", 2));
+    }
+
+    @Test void getWord_test_last() {
+        assertEquals("zxcvb", getWord("qwert asdfg zxcvb", 15));
+    }
 }

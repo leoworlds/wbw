@@ -55,6 +55,37 @@ public final class Util {
         return lines;
     }
 
+    public static String getWord(String string, int index) {
+        String word = String.valueOf(string.charAt(index));
+        char cFirst = ' ';
+        char cLast = ' ';
+        int iFirst = 1;
+        int iLast = 1;
+        do {
+            if (index - iFirst >= 0) {
+                cFirst = string.charAt(index - iFirst);
+                if (cFirst != ' ') {
+                    word = cFirst + word;
+                    iFirst++;
+                }
+            } else {
+                cFirst = ' ';
+            }
+
+            if (index + iLast < string.length()) {
+                cLast = string.charAt(index + iLast);
+                if (cLast != ' ') {
+                    word = word + cLast;
+                    iLast++;
+                }
+            } else {
+                cLast = ' ';
+            }
+        } while (cFirst != ' ' || cLast != ' ');
+
+        return word;
+    }
+
     public static Rectangle2D getStringBounds(String string) {
         return FontConfig.getFontConfig().getPlainTextFont().getStringBounds(string, FONT_RENDER_CONTEXT);
     }

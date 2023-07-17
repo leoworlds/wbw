@@ -5,8 +5,7 @@ import leo.main.setting.theme.FontConfig;
 import leo.main.setting.theme.Theme;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
@@ -30,6 +29,12 @@ public class TextPanel extends TypePanel {
     private long startTime;
 
     private int level;
+
+    List<String> lines;
+
+    int mouseX;
+    int mouseY;
+    boolean mousePressed;
 
     public TextPanel(String fileName) {
 
@@ -82,6 +87,43 @@ public class TextPanel extends TypePanel {
                 repaint();
             }
         });
+
+//        addMouseMotionListener(new MouseMotionAdapter() {
+//            @Override
+//            public void mouseMoved(MouseEvent e) {
+//                int y = e.getY();
+//                int x = e.getX();
+//
+//                int h = (int)Util.getStringBounds(lines.get(0)).getHeight();
+//                int w = (int)Util.getStringBounds(String.valueOf(lines.get(0).charAt(0))).getWidth();
+//
+//                System.out.println(y/h + ":" + x/w);
+//            }
+//        });
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseX = e.getX();
+                mouseY = e.getY();
+                mousePressed = true;
+
+                int h = (int)Util.getStringBounds(lines.get(0)).getHeight();
+                int w = (int)Util.getStringBounds(String.valueOf(lines.get(0).charAt(0))).getWidth();
+
+                int charX = (mouseX - 10)/w;
+                int charY = mouseY/h;
+
+                char c = lines.get(charY).charAt(charX);
+
+                System.out.println(charX + ":" + charY + "=" + c + ":" + Util.getWord(lines.get(charY), charX));
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                mousePressed = false;
+            }
+        });
     }
 
     @Override
@@ -89,7 +131,7 @@ public class TextPanel extends TypePanel {
         Graphics2D g = (Graphics2D) gg;
         g.setFont(FontConfig.getFontConfig().getPlainTextFont());
 
-        List<String> lines = Util.split(text, getWidth());
+        lines = Util.split(text, getWidth());
 
         int drawPosition = 0;
 

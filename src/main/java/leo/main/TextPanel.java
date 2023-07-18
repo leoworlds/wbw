@@ -10,17 +10,17 @@ import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
 
-import static leo.main.Util.readFile;
+import static leo.main.Util.*;
 
 public class TextPanel extends TypePanel {
 
     private List<String> texts;
     private String text;
 
-    String typed = "";
-    String typedWord = "";
+    private String typed = "";
+    private String typedWord = "";
 
-    int typedWordCounter = 0;
+    private int typedWordCounter = 0;
 
     private int mistakeCounter;
     private int position;
@@ -30,11 +30,15 @@ public class TextPanel extends TypePanel {
 
     private int level;
 
-    List<String> lines;
+    private List<String> lines;
+    private List<String> dirtyWords;
 
-    int mouseX;
-    int mouseY;
-    boolean mousePressed;
+    private TextWord selectedWord;
+    private int selectedLine;
+
+    private int mouseX;
+    private int mouseY;
+    private boolean mousePressed;
 
     public TextPanel(String fileName) {
 
@@ -42,6 +46,7 @@ public class TextPanel extends TypePanel {
 
         texts = readFile(fileName);
         text = texts.get(level);
+        dirtyWords = Arrays.asList(text.split(SPACE));
 
         setFocusable(true);
         requestFocusInWindow();
@@ -116,12 +121,24 @@ public class TextPanel extends TypePanel {
 
                 char c = lines.get(charY).charAt(charX);
 
-                System.out.println(charX + ":" + charY + "=" + c + ":" + Util.getWord(lines.get(charY), charX));
+                selectedWord = Util.getWord(lines.get(charY), charX);
+                selectedLine = charY;
+
+                System.out.println(charX + ":" + charY + "=" + c + ":" + selectedWord);
+
+                repaint();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
                 mousePressed = false;
+            }
+        });
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                lines = Util.split(dirtyWords, getWidth());
             }
         });
     }
@@ -131,7 +148,10 @@ public class TextPanel extends TypePanel {
         Graphics2D g = (Graphics2D) gg;
         g.setFont(FontConfig.getFontConfig().getPlainTextFont());
 
-        lines = Util.split(text, getWidth());
+        //todo
+        if (lines == null) {
+            lines = Util.split(dirtyWords, getWidth());
+        }
 
         int drawPosition = 0;
 
@@ -161,6 +181,10 @@ public class TextPanel extends TypePanel {
                     g.setColor(Color.RED);
                     g.drawRect(x + j*(int)rect.getWidth(), y-h+h/4, (int)rect.getWidth(), (int)rect.getHeight());
                     g.setColor(Theme.getTheme().getTextColor());
+                }
+
+                if (selectedWord != null && selectedLine == i && j >= selectedWord.getPosition() && j < selectedWord.getPosition() + selectedWord.getLength()) {
+                    g.setColor(Color.orange);
                 }
 
                 g.drawString(sChar, x + j*(int)rect.getWidth(), y);

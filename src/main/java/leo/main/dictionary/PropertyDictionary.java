@@ -31,6 +31,6 @@ public class PropertyDictionary implements Dictionary {
 
     @Override
     public WordEntity get(String word) {
-        return new WordEntity(word, map.get(word));
+        return new WordEntity(word, map.get(word.toLowerCase()));
     }
 }

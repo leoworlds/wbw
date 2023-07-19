@@ -151,7 +151,7 @@ public class TextPanel extends TypePanel {
                     textField.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            dictionary.map.put(selectedWord.getWord(), Collections.singletonList(textField.getText()));
+                            dictionary.map.put(selectedWord.getWord().toLowerCase(), Collections.singletonList(textField.getText()));
                             popupMenu.setVisible(false);
 
 
@@ -169,8 +169,6 @@ public class TextPanel extends TypePanel {
                 }
 
                 repaint();
-
-//                TextPanel.this.setToolTipText("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
             }
 
             @Override

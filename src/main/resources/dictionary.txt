@@ -1,4 +1,9 @@
+but=але
 come=прийти
 goggles=окуляри
+her=її
 just=якраз
+she=вона
+slim=стрункий
+tolerable=стерпний
 widow=вдова,прикуп

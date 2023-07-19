@@ -45,6 +45,11 @@ public class TextPanel extends TypePanel {
     private int mouseY;
     private boolean mousePressed;
 
+    private int xPosition;
+    private int yPosition;
+
+    HintPopup hintPopup = new HintPopup();
+
     private PropertyDictionary dictionary = new PropertyDictionary();
 
     public TextPanel(String fileName) {
@@ -73,6 +78,19 @@ public class TextPanel extends TypePanel {
                     position++;
 
                     if (newChar == ' ') {
+
+
+                        WordEntity wordEntity = dictionary.get(typedWord);
+                        if (wordEntity.getDefinitions() != null) {
+                            hintPopup.setText(wordEntity.getDefinitions().get(0));
+                            hintPopup.show(TextPanel.this, xPosition, yPosition + 30);
+                        } else {
+                            hintPopup.setVisible(false);
+                        }
+
+
+
+
                         typedWord = "";
                         typedWordCounter++;
                         event();
@@ -100,19 +118,6 @@ public class TextPanel extends TypePanel {
             }
         });
 
-//        addMouseMotionListener(new MouseMotionAdapter() {
-//            @Override
-//            public void mouseMoved(MouseEvent e) {
-//                int y = e.getY();
-//                int x = e.getX();
-//
-//                int h = (int)Util.getStringBounds(lines.get(0)).getHeight();
-//                int w = (int)Util.getStringBounds(String.valueOf(lines.get(0).charAt(0))).getWidth();
-//
-//                System.out.println(y/h + ":" + x/w);
-//            }
-//        });
-
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -135,13 +140,8 @@ public class TextPanel extends TypePanel {
 
                 WordEntity wordEntity = dictionary.get(selectedWord.getWord());
                 if (wordEntity.getDefinitions() != null) {
-                    JPopupMenu popupMenu = new JPopupMenu();
-                    popupMenu.setFocusable(false);
-                    JLabel label = new JLabel(wordEntity.getDefinitions().get(0));
-                    label.setFont(FontConfig.getFontConfig().getPlainTextFont());
-                    popupMenu.setBackground(Color.orange);
-                    popupMenu.add(label);
-                    popupMenu.show(TextPanel.this, mouseX, mouseY);
+                    hintPopup.setText(wordEntity.getDefinitions().get(0));
+                    hintPopup.show(TextPanel.this, mouseX, yPosition + 30);
                 } else {
                     JPopupMenu popupMenu = new JPopupMenu();
                     JTextField textField = new JTextField(selectedWord.getWord());
@@ -221,7 +221,9 @@ public class TextPanel extends TypePanel {
                     g.setColor(Theme.getTheme().getTypeTextColor());
                 } else {
                     g.setColor(Color.RED);
-                    g.drawRect(x + j*(int)rect.getWidth(), y-h+h/4, (int)rect.getWidth(), (int)rect.getHeight());
+                    xPosition = x + j*(int)rect.getWidth();
+                    yPosition = y-h+h/4;
+                    g.drawRect(xPosition, yPosition, (int)rect.getWidth(), (int)rect.getHeight());
                     g.setColor(Theme.getTheme().getTextColor());
                 }
 

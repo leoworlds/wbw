@@ -90,7 +90,7 @@ public final class Util {
         do {
             if (index - iFirst >= 0) {
                 cFirst = string.charAt(index - iFirst);
-                if (cFirst != ' ') {
+                if (wordChar(cFirst)) {
                     word = cFirst + word;
                     iFirst++;
                 }
@@ -100,16 +100,20 @@ public final class Util {
 
             if (index + iLast < string.length()) {
                 cLast = string.charAt(index + iLast);
-                if (cLast != ' ') {
+                if (wordChar(cLast)) {
                     word = word + cLast;
                     iLast++;
                 }
             } else {
                 cLast = ' ';
             }
-        } while (cFirst != ' ' || cLast != ' ');
+        } while (wordChar(cFirst) || wordChar(cLast));
 
         return new TextWord(word, index - iFirst + 1);
+    }
+
+    public static boolean wordChar(char c) {
+        return String.valueOf(c).matches("[A-Za-z?]");
     }
 
     public static Rectangle2D getStringBounds(String string) {

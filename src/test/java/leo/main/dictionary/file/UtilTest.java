@@ -1,10 +1,12 @@
 package leo.main.dictionary.file;
 
+import leo.main.Util;
 import org.junit.jupiter.api.Test;
 
 import static leo.main.Util.getWord;
 import static leo.main.Util.withCapitalLetter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UtilTest {
 
@@ -23,5 +25,15 @@ class UtilTest {
 
     @Test void getWord_test_last() {
         assertEquals("zxcvb", getWord("qwert asdfg zxcvb", 15));
+    }
+
+    @Test
+    void wordChar_upper_test() {
+        assertTrue(Util.wordChar('A'));
+    }
+
+    @Test
+    void wordChar_lower_test() {
+        assertTrue(Util.wordChar('a'));
     }
 }

@@ -1,9 +1,15 @@
 but=але
 come=прийти
+dull=нудний
+fidgety=непосидючий
 goggles=окуляри
 her=її
 just=якраз
+maid=діва
 she=вона
+sister=сестра
 slim=стрункий
+there=там
 tolerable=стерпний
 widow=вдова,прикуп
+with her=тест

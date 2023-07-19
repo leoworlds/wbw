@@ -25,4 +25,3 @@ there=там
 tolerable=стерпний
 wicked=грішний
 widow=вдова,прикуп
-with her=тест

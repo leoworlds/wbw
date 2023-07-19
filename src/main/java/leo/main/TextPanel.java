@@ -83,7 +83,8 @@ public class TextPanel extends TypePanel {
                         WordEntity wordEntity = dictionary.get(typedWord);
                         if (wordEntity.getDefinitions() != null) {
                             hintPopup.setText(wordEntity.getDefinitions().get(0));
-                            hintPopup.show(TextPanel.this, xPosition, yPosition + 30);
+                            int width = (int)Util.getStringBounds(wordEntity.getWord()).getWidth();
+                            hintPopup.show(TextPanel.this, xPosition - width/2, yPosition + 26);
                         } else {
                             hintPopup.setVisible(false);
                         }

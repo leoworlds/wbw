@@ -1,3 +1,4 @@
+book=книга
 but=але
 come=прийти
 dull=нудний
@@ -6,9 +7,12 @@ goggles=окуляри
 her=її
 just=якраз
 maid=діва
+middling=середній
 she=вона
 sister=сестра
 slim=стрункий
+spelling-book=буквар
+spelling=правопис
 there=там
 tolerable=стерпний
 widow=вдова,прикуп

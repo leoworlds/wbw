@@ -36,4 +36,9 @@ class UtilTest {
     void wordChar_lower_test() {
         assertTrue(Util.wordChar('a'));
     }
+
+    @Test
+    void test() {
+        System.out.println("\'Value\',".replaceAll("[^A-Za-z?]", ""));
+    }
 }

@@ -80,7 +80,7 @@ public class TextPanel extends TypePanel {
                     if (newChar == ' ') {
 
 
-                        WordEntity wordEntity = dictionary.get(typedWord);
+                        WordEntity wordEntity = dictionary.get(typedWord.replaceAll("[^A-Za-z?]", ""));
                         if (wordEntity.getDefinitions() != null) {
                             hintPopup.setText(wordEntity.getDefinitions().get(0));
                             int width = (int)Util.getStringBounds(wordEntity.getWord()).getWidth();

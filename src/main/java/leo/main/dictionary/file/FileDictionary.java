@@ -92,6 +92,11 @@ public class FileDictionary implements Dictionary {
         return words.get(current);
     }
 
+    @Override
+    public WordEntity get(String word) {
+        return null;
+    }
+
     public static List<String> parseDefinition(String definition) {
         Matcher matcher = PATTERN_PARSE_DEFINITION.matcher(definition);
         List<String> list = new ArrayList<>();

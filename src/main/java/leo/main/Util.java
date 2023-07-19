@@ -6,6 +6,9 @@ import lombok.SneakyThrows;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -113,8 +116,4 @@ public final class Util {
         return FontConfig.getFontConfig().getPlainTextFont().getStringBounds(string, FONT_RENDER_CONTEXT);
     }
 
-    @SneakyThrows
-    public static List<String> readFile(String name) {
-        return Files.readAllLines(Paths.get("src/main/resources/" + name));
-    }
 }

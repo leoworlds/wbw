@@ -25,4 +25,9 @@ public class CharDictionary implements Dictionary {
     public WordEntity peek() {
         return new WordEntity(current, Collections.singletonList(current));
     }
+
+    @Override
+    public WordEntity get(String word) {
+        return null;
+    }
 }

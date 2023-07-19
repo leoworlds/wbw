@@ -43,4 +43,9 @@ public class WordnikDictionary implements Dictionary {
     public WordEntity peek() {
         return new WordEntity(words.peek(), new ArrayList<>());
     }
+
+    @Override
+    public WordEntity get(String word) {
+        return null;
+    }
 }

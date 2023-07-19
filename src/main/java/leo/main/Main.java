@@ -2,6 +2,7 @@ package leo.main;
 
 import leo.main.config.Config;
 import leo.main.dictionary.Dictionary;
+import leo.main.dictionary.PropertyDictionary;
 import leo.main.dictionary.file.FileDictionary;
 import leo.main.dictionary.mix.MixDictionary;
 import leo.main.dictionary.my.CharDictionary;
@@ -17,9 +18,13 @@ public class Main {
     private static final boolean isSymbol = Boolean.parseBoolean(Config.config().getProps().getProperty("symbol", "true"));
 
     public static void main(String ... strings) {
+//        Dictionary dictionary = isSymbol
+//                ? new MixDictionary(new CharDictionary(), new FileDictionary())
+//                : new FileDictionary();
+
         Dictionary dictionary = isSymbol
-                ? new MixDictionary(new CharDictionary(), new FileDictionary())
-                : new FileDictionary();
+                ? new MixDictionary(new CharDictionary(), new PropertyDictionary())
+                : new PropertyDictionary();
 
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame(TITLE);

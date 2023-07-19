@@ -1,14 +1,19 @@
 package leo.main;
 
 import leo.main.config.Config;
+import leo.main.dictionary.PropertyDictionary;
+import leo.main.dictionary.WordEntity;
 import leo.main.setting.theme.FontConfig;
 import leo.main.setting.theme.Theme;
+import leo.main.utils.FileUtils;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static leo.main.Util.*;
 
@@ -40,11 +45,13 @@ public class TextPanel extends TypePanel {
     private int mouseY;
     private boolean mousePressed;
 
+    private PropertyDictionary dictionary = new PropertyDictionary();
+
     public TextPanel(String fileName) {
 
         level = Config.config().getProps().getProperty("level", 1) - 1;
 
-        texts = readFile(fileName);
+        texts = FileUtils.read(fileName);
         text = texts.get(level);
         dirtyWords = Arrays.asList(text.split(SPACE));
 
@@ -126,7 +133,44 @@ public class TextPanel extends TypePanel {
 
                 System.out.println(charX + ":" + charY + "=" + c + ":" + selectedWord);
 
+                WordEntity wordEntity = dictionary.get(selectedWord.getWord());
+                if (wordEntity.getDefinitions() != null) {
+                    JPopupMenu popupMenu = new JPopupMenu();
+                    popupMenu.setFocusable(false);
+                    JLabel label = new JLabel(wordEntity.getDefinitions().get(0));
+                    label.setFont(FontConfig.getFontConfig().getPlainTextFont());
+                    popupMenu.setBackground(Color.orange);
+                    popupMenu.add(label);
+                    popupMenu.show(TextPanel.this, mouseX, mouseY);
+                } else {
+                    JPopupMenu popupMenu = new JPopupMenu();
+                    JTextField textField = new JTextField(selectedWord.getWord());
+                    textField.setFont(FontConfig.getFontConfig().getPlainTextFont());
+                    popupMenu.add(textField);
+
+                    textField.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            dictionary.map.put(selectedWord.getWord(), Collections.singletonList(textField.getText()));
+                            popupMenu.setVisible(false);
+
+
+                            List<String> lines = dictionary.map.entrySet().stream()
+                                    .map(entry -> entry.getKey() + "=" + String.join(",", entry.getValue()))
+                                    .sorted(String::compareTo)
+                                    .collect(Collectors.toList());
+
+
+                            FileUtils.save("dictionary.txt", lines);
+                        }
+                    });
+
+                    popupMenu.show(TextPanel.this, mouseX, mouseY);
+                }
+
                 repaint();
+
+//                TextPanel.this.setToolTipText("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
             }
 
             @Override

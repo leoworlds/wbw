@@ -24,4 +24,9 @@ public class MixDictionary implements Dictionary {
     public WordEntity peek() {
         return dictionaries[index].peek();
     }
+
+    @Override
+    public WordEntity get(String word) {
+        return null;
+    }
 }

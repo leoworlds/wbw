@@ -107,7 +107,7 @@ public final class Util {
     }
 
     public static boolean wordChar(char c) {
-        return String.valueOf(c).matches("[A-Za-z?]");
+        return String.valueOf(c).matches("[A-Za-z]");
     }
 
     public static Rectangle2D getStringBounds(String string) {

@@ -182,6 +182,7 @@ public class TextPanel extends TypePanel {
             @Override
             public void componentResized(ComponentEvent e) {
                 lines = Util.split(dirtyWords, getWidth());
+                repaint();
             }
         });
     }

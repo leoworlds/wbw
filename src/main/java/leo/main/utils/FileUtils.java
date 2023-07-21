@@ -31,7 +31,7 @@ public class FileUtils {
 
     public void playWord(String word) {
         new Thread(() -> {
-            try (InputStream is = new BufferedInputStream(new FileInputStream(PATH + word + ".mp3"))) {
+            try (InputStream is = new BufferedInputStream(new FileInputStream(PATH + "sound/" + word + ".mp3"))) {
                 new Player(is).play();
             } catch (Exception e) {}
         }).start();

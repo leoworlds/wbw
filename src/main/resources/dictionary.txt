@@ -36,6 +36,7 @@ lonesome=самотній
 mad=божевільний
 maid=діва
 middling=середній
+miserableness=халепа
 mournful=скорботний
 nailing=забивання цвяхів
 plenty=багато

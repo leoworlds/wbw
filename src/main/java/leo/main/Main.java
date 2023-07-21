@@ -3,10 +3,10 @@ package leo.main;
 import leo.main.config.Config;
 import leo.main.dictionary.Dictionary;
 import leo.main.dictionary.PropertyDictionary;
-import leo.main.dictionary.file.FileDictionary;
 import leo.main.dictionary.mix.MixDictionary;
 import leo.main.dictionary.my.CharDictionary;
 import leo.main.setting.theme.Theme;
+import leo.main.utils.FileUtils;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;

@@ -89,7 +89,7 @@ public class TextPanel extends TypePanel {
                             hintPopup.setVisible(false);
                         }
 
-
+                        FileUtils.playWord(wordEntity.getWord());
 
 
                         typedWord = "";

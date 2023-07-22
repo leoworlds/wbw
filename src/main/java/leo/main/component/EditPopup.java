@@ -15,8 +15,11 @@ public class EditPopup extends JPopupMenu {
     private JTextField textField = new JTextField();
 
     private String text;
+    private Component invoker;
 
-    public EditPopup(PropertyDictionary dictionary) {
+    public EditPopup(Component invoker, PropertyDictionary dictionary) {
+        this.invoker = invoker;
+
         textField.setFont(FontConfig.getFontConfig().getPlainTextFont());
         add(textField);
 
@@ -30,7 +33,7 @@ public class EditPopup extends JPopupMenu {
         });
     }
 
-    public void showText(Component invoker, String text, int x, int y) {
+    public void showText(String text, int x, int y) {
         this.text = text;
         textField.setText(text);
         show(invoker, x, y);

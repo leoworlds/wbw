@@ -8,8 +8,11 @@ import java.awt.*;
 public class HintPopup extends JPopupMenu {
 
     private JLabel label = new JLabel();
+    private Component invoker;
 
-    public HintPopup() {
+    public HintPopup(Component invoker) {
+        this.invoker = invoker;
+
         setFocusable(false);
         setBackground(Color.orange);
 
@@ -17,7 +20,7 @@ public class HintPopup extends JPopupMenu {
         add(label);
     }
 
-    public void showText(Component invoker, String text, int x, int y) {
+    public void showText(String text, int x, int y) {
         label.setText(text);
         show(invoker, x, y);
     }

@@ -10,8 +10,6 @@ import leo.main.setting.theme.Theme;
 import leo.main.utils.FileUtils;
 
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
@@ -52,10 +50,13 @@ public class TextPanel extends TypePanel {
 
     private PropertyDictionary dictionary = new PropertyDictionary();
 
-    private HintPopup hintPopup = new HintPopup();
-    private EditPopup editPopup = new EditPopup(dictionary);
+    private HintPopup hintPopup;
+    private EditPopup editPopup;
 
     public TextPanel(String fileName) {
+
+        hintPopup = new HintPopup(TextPanel.this);
+        editPopup = new EditPopup(TextPanel.this, dictionary);
 
         level = Config.config().getProps().getProperty("level", 1) - 1;
 
@@ -65,6 +66,13 @@ public class TextPanel extends TypePanel {
 
         setFocusable(true);
         requestFocusInWindow();
+
+        hintPopup.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                editPopup.showText(selectedWord.getWord(), mouseX, mouseY);
+            }
+        });
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -86,7 +94,7 @@ public class TextPanel extends TypePanel {
                         WordEntity wordEntity = dictionary.get(typedWord.replaceAll("[^A-Za-z'\\-]", ""));
                         if (wordEntity.getDefinitions() != null) {
                             int width = (int)Util.getStringBounds(wordEntity.getWord()).getWidth();
-                            hintPopup.showText(TextPanel.this, wordEntity.getDefinitions().get(0), xPosition - width/2, yPosition + 26);
+                            hintPopup.showText(wordEntity.getDefinitions().get(0), xPosition - width/2, yPosition + 26);
                         } else {
                             hintPopup.hideText();
                         }
@@ -144,12 +152,12 @@ public class TextPanel extends TypePanel {
                 WordEntity wordEntity = dictionary.get(selectedWord.getWord());
 
                 FileUtils.playWord(wordEntity.getWord());
-                FileUtils.copyToClipboard(selectedWord.getWord());
+//                FileUtils.copyToClipboard(selectedWord.getWord());
 
                 if (wordEntity.getDefinitions() != null) {
-                    hintPopup.showText(TextPanel.this, wordEntity.getDefinitions().get(0), mouseX, mouseY + 16);
+                    hintPopup.showText(wordEntity.getDefinitions().get(0), mouseX, mouseY + 16);
                 } else {
-                    editPopup.showText(TextPanel.this, selectedWord.getWord(), mouseX, mouseY);
+                    editPopup.showText(selectedWord.getWord(), mouseX, mouseY);
                 }
 
                 repaint();

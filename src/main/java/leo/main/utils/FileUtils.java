@@ -8,6 +8,9 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -49,5 +52,11 @@ public class FileUtils {
                 new Player(is).play();
             } catch (Exception e) {}
         }).start();
+    }
+
+    public void copyToClipboard(String text) {
+        StringSelection stringSelection = new StringSelection(text);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(stringSelection, null);
     }
 }

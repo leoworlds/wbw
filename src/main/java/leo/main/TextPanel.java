@@ -10,6 +10,8 @@ import leo.main.setting.theme.Theme;
 import leo.main.utils.FileUtils;
 
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
@@ -142,6 +144,7 @@ public class TextPanel extends TypePanel {
                 WordEntity wordEntity = dictionary.get(selectedWord.getWord());
 
                 FileUtils.playWord(wordEntity.getWord());
+                FileUtils.copyToClipboard(selectedWord.getWord());
 
                 if (wordEntity.getDefinitions() != null) {
                     hintPopup.showText(TextPanel.this, wordEntity.getDefinitions().get(0), mouseX, mouseY + 16);

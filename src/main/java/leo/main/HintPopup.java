@@ -17,7 +17,12 @@ public class HintPopup extends JPopupMenu {
         add(label);
     }
 
-    public void setText(String text) {
+    public void showText(Component invoker, String text, int x, int y) {
         label.setText(text);
+        show(invoker, x, y);
+    }
+
+    public void hideText() {
+       setVisible(false);
     }
 }

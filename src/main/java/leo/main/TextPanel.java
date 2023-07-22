@@ -82,11 +82,10 @@ public class TextPanel extends TypePanel {
 
                         WordEntity wordEntity = dictionary.get(typedWord.replaceAll("[^A-Za-z'\\-]", ""));
                         if (wordEntity.getDefinitions() != null) {
-                            hintPopup.setText(wordEntity.getDefinitions().get(0));
                             int width = (int)Util.getStringBounds(wordEntity.getWord()).getWidth();
-                            hintPopup.show(TextPanel.this, xPosition - width/2, yPosition + 26);
+                            hintPopup.showText(TextPanel.this, wordEntity.getDefinitions().get(0), xPosition - width/2, yPosition + 26);
                         } else {
-                            hintPopup.setVisible(false);
+                            hintPopup.hideText();
                         }
 
                         FileUtils.playWord(wordEntity.getWord());
@@ -140,9 +139,11 @@ public class TextPanel extends TypePanel {
                 System.out.println(charX + ":" + charY + "=" + c + ":" + selectedWord);
 
                 WordEntity wordEntity = dictionary.get(selectedWord.getWord());
+
+                FileUtils.playWord(wordEntity.getWord());
+
                 if (wordEntity.getDefinitions() != null) {
-                    hintPopup.setText(wordEntity.getDefinitions().get(0));
-                    hintPopup.show(TextPanel.this, mouseX, yPosition + 30);
+                    hintPopup.showText(TextPanel.this, wordEntity.getDefinitions().get(0), mouseX, mouseY + 16);
                 } else {
                     JPopupMenu popupMenu = new JPopupMenu();
                     JTextField textField = new JTextField(selectedWord.getWord());

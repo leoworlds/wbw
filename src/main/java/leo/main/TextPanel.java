@@ -9,6 +9,7 @@ import leo.main.setting.theme.FontConfig;
 import leo.main.setting.theme.Theme;
 import leo.main.utils.FileUtils;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
@@ -54,6 +55,17 @@ public class TextPanel extends TypePanel {
     private EditPopup editPopup;
 
     public TextPanel(String fileName) {
+
+        JButton button = new JButton("Play");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FileUtils.playWord("3");
+            }
+        });
+
+        JPopupMenu mainPopup = new JPopupMenu();
+        mainPopup.add(button);
 
         hintPopup = new HintPopup(TextPanel.this);
         editPopup = new EditPopup(TextPanel.this, dictionary);
@@ -132,6 +144,12 @@ public class TextPanel extends TypePanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+
+                if (e.getButton() == 3) {
+                    mainPopup.show(TextPanel.this, e.getX(), e.getY());
+                    return;
+                }
+
                 mouseX = e.getX();
                 mouseY = e.getY();
                 mousePressed = true;

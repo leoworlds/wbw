@@ -1,5 +1,7 @@
 package leo.main;
 
+import leo.main.component.EditPopup;
+import leo.main.component.HintPopup;
 import leo.main.config.Config;
 import leo.main.dictionary.PropertyDictionary;
 import leo.main.dictionary.WordEntity;
@@ -7,15 +9,13 @@ import leo.main.setting.theme.FontConfig;
 import leo.main.setting.theme.Theme;
 import leo.main.utils.FileUtils;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static leo.main.Util.*;
+import static leo.main.Util.SPACE;
 
 public class TextPanel extends TypePanel {
 
@@ -48,9 +48,10 @@ public class TextPanel extends TypePanel {
     private int xPosition;
     private int yPosition;
 
-    HintPopup hintPopup = new HintPopup();
-
     private PropertyDictionary dictionary = new PropertyDictionary();
+
+    private HintPopup hintPopup = new HintPopup();
+    private EditPopup editPopup = new EditPopup(dictionary);
 
     public TextPanel(String fileName) {
 
@@ -145,29 +146,7 @@ public class TextPanel extends TypePanel {
                 if (wordEntity.getDefinitions() != null) {
                     hintPopup.showText(TextPanel.this, wordEntity.getDefinitions().get(0), mouseX, mouseY + 16);
                 } else {
-                    JPopupMenu popupMenu = new JPopupMenu();
-                    JTextField textField = new JTextField(selectedWord.getWord());
-                    textField.setFont(FontConfig.getFontConfig().getPlainTextFont());
-                    popupMenu.add(textField);
-
-                    textField.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            dictionary.map.put(selectedWord.getWord().toLowerCase(), Collections.singletonList(textField.getText()));
-                            popupMenu.setVisible(false);
-
-
-                            List<String> lines = dictionary.map.entrySet().stream()
-                                    .map(entry -> entry.getKey() + "=" + String.join(",", entry.getValue()))
-                                    .sorted(String::compareTo)
-                                    .collect(Collectors.toList());
-
-
-                            FileUtils.save("dictionary.txt", lines);
-                        }
-                    });
-
-                    popupMenu.show(TextPanel.this, mouseX, mouseY);
+                    editPopup.showText(TextPanel.this, selectedWord.getWord(), mouseX, mouseY);
                 }
 
                 repaint();

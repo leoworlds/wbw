@@ -1,4 +1,4 @@
-package leo.main;
+package leo.main.component;
 
 import leo.main.setting.theme.FontConfig;
 

@@ -2,6 +2,9 @@ package leo.main.utils;
 
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
+import javazoom.jl.player.advanced.AdvancedPlayer;
+import javazoom.jl.player.advanced.PlaybackEvent;
+import javazoom.jl.player.advanced.PlaybackListener;
 import leo.main.dictionary.Dictionary;
 import leo.main.dictionary.PropertyDictionary;
 import lombok.SneakyThrows;
@@ -53,6 +56,53 @@ public class FileUtils {
             } catch (Exception e) {}
         }).start();
     }
+
+//    @SneakyThrows
+//    public AdvancedPlayer playWord(String word) {
+//
+//        InputStream is = null;
+//        try {
+//            is = new BufferedInputStream(new FileInputStream(PATH + "sound/" + word + ".mp3"));
+//        } catch (FileNotFoundException e) {
+//            is.close();
+//        }
+//
+//        AdvancedPlayer player = new AdvancedPlayer(is);
+//
+//        player.setPlayBackListener(new PlaybackListener() {
+//            @Override
+//            public void playbackStarted(PlaybackEvent e) {
+//                super.playbackStarted(e);
+//            }
+//
+//            @Override
+//            public void playbackFinished(PlaybackEvent e) {
+//                e.getFrame();
+//            }
+//        });
+//
+//
+//        InputStream finalIs = is;
+//        new Thread(() -> {
+//            try {
+//                player.play(0, Integer.MAX_VALUE);
+//            } catch (Exception e) {
+//                try {
+//                    finalIs.close();
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//            } finally {
+//                try {
+//                    finalIs.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
+//
+//        return player;
+//    }
 
     public void copyToClipboard(String text) {
         StringSelection stringSelection = new StringSelection(text);

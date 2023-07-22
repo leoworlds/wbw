@@ -55,22 +55,23 @@ public class TextPanel extends TypePanel {
     private EditPopup editPopup;
 
     public TextPanel(String fileName) {
+        hintPopup = new HintPopup(TextPanel.this);
+        editPopup = new EditPopup(TextPanel.this, dictionary);
+
+        level = Config.config().getProps().getProperty("level", 1) - 1;
+
+        JPopupMenu mainPopup = new JPopupMenu();
 
         JButton button = new JButton("Play");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FileUtils.playWord("3");
+                FileUtils.playWord(String.valueOf(level + 1));
+                mainPopup.setVisible(false);
             }
         });
 
-        JPopupMenu mainPopup = new JPopupMenu();
         mainPopup.add(button);
-
-        hintPopup = new HintPopup(TextPanel.this);
-        editPopup = new EditPopup(TextPanel.this, dictionary);
-
-        level = Config.config().getProps().getProperty("level", 1) - 1;
 
         texts = FileUtils.read(fileName);
         text = texts.get(level);

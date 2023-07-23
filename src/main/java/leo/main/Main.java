@@ -9,6 +9,7 @@ import leo.main.setting.theme.Theme;
 import leo.main.utils.FileUtils;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
@@ -67,7 +68,15 @@ public class Main {
                 }
             });
 
-            frame.add(typePanel);
+
+            TranslateTextPanel translateTextPanel = new TranslateTextPanel();
+
+            typePanel.setPreferredSize(new Dimension(0, frame.getHeight()/2));
+
+            JSplitPane splitPanel = new JSplitPane(SwingConstants.HORIZONTAL, typePanel, translateTextPanel);
+            splitPanel.setBackground(Theme.getTheme().getBackground());
+
+            frame.add(splitPanel);
         });
     }
 }

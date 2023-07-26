@@ -12,7 +12,7 @@ import java.util.List;
 
 import static leo.main.Util.SPACE;
 
-public class TranslateTextPanel extends JPanel {
+public class TranslateTextPanel extends JComponent {
 
     private List<String> texts;
     private String text;
@@ -24,7 +24,7 @@ public class TranslateTextPanel extends JPanel {
     public TranslateTextPanel() {
         level = Config.config().getProps().getProperty("level", 1) - 1;
 
-        texts = FileUtils.read("huckleberry_finn_ua.txt");
+        texts = FileUtils.read(Config.config().getProps().getProperty("file_ua"));
         text = texts.get(level);
         dirtyWords = Arrays.asList(text.split(SPACE));
     }
@@ -57,5 +57,12 @@ public class TranslateTextPanel extends JPanel {
                 g.drawString(sChar, x + j*(int)rect.getWidth(), y);
             }
         }
+    }
+
+    public void nextLevel() {
+        text = texts.get(++level);
+        dirtyWords = Arrays.asList(text.split(SPACE));
+        lines = Util.split(dirtyWords, getWidth());
+        repaint();
     }
 }

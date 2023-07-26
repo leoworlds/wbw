@@ -13,17 +13,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import static leo.main.Util.SPACE;
 import static leo.main.Util.sleep;
 
-public class TextPanel extends TypePanel {
+public class TextPanel extends TypeComponent {
 
     private List<String> texts;
     private String text;
@@ -59,7 +56,7 @@ public class TextPanel extends TypePanel {
     private HintPopup hintPopup;
     private EditPopup editPopup;
 
-    public TextPanel(String fileName) {
+    public TextPanel() {
         hintPopup = new HintPopup(TextPanel.this);
         editPopup = new EditPopup(TextPanel.this, dictionary);
 
@@ -68,17 +65,14 @@ public class TextPanel extends TypePanel {
         JPopupMenu mainPopup = new JPopupMenu();
 
         JButton button = new JButton("Play");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                FileUtils.playWord(String.valueOf(level + 1));
-                mainPopup.setVisible(false);
-            }
+        button.addActionListener(e -> {
+            FileUtils.playWord(String.valueOf(level + 1));
+            mainPopup.setVisible(false);
         });
 
         mainPopup.add(button);
 
-        texts = FileUtils.read(fileName);
+        texts = FileUtils.read(Config.config().getProps().getProperty("file_en"));
         text = texts.get(level);
         dirtyWords = Arrays.stream(text.split(SPACE)).collect(Collectors.toList());
 
@@ -158,6 +152,8 @@ public class TextPanel extends TypePanel {
 
                         lines = Util.split(dirtyWords, getWidth());
                     }).start();
+
+                    finishLevel();
                 }
 
                 repaint();
@@ -297,6 +293,15 @@ public class TextPanel extends TypePanel {
             @Override
             public int speed() {
                 return (int)(1000*60*position / (System.currentTimeMillis() - startTime));
+            }
+        }));
+    }
+
+    private void finishLevel() {
+        levelListenerList.forEach(levelListener -> levelListener.event(new LevelEvent() {
+            @Override
+            public int getLevel() {
+                return level;
             }
         }));
     }

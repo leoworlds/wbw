@@ -6,10 +6,8 @@ import leo.main.dictionary.PropertyDictionary;
 import leo.main.dictionary.mix.MixDictionary;
 import leo.main.dictionary.my.CharDictionary;
 import leo.main.setting.theme.Theme;
-import leo.main.utils.FileUtils;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
@@ -36,9 +34,13 @@ public class Main {
             frame.setVisible(true);
             frame.setLocationRelativeTo(null);
 
+//            TypePanel typePanel = Config.config().getProps().getProperty("mode", 0) == 0
+//                    ? new FallWordPanel(dictionary)
+//                    : new TextPanel(Config.config().getProps().getProperty("file"));
+
             TypePanel typePanel = Config.config().getProps().getProperty("mode", 0) == 0
                     ? new FallWordPanel(dictionary)
-                    : new TextPanel(Config.config().getProps().getProperty("file"));
+                    : new TextSplitPanel();
 
             typePanel.addCompletedListener(e -> {
                 frame.setTitle((e.completed() <= 0 && e.mistake() == 0) ? TITLE : TITLE + "  +" + e.getStatistic());
@@ -68,15 +70,7 @@ public class Main {
                 }
             });
 
-
-            TranslateTextPanel translateTextPanel = new TranslateTextPanel();
-
-            typePanel.setPreferredSize(new Dimension(0, frame.getHeight()/2));
-
-            JSplitPane splitPanel = new JSplitPane(SwingConstants.HORIZONTAL, typePanel, translateTextPanel);
-            splitPanel.setBackground(Theme.getTheme().getBackground());
-
-            frame.add(splitPanel);
+            frame.add(typePanel);
         });
     }
 }

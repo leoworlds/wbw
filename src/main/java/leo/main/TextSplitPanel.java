@@ -1,5 +1,6 @@
 package leo.main;
 
+import leo.main.config.Config;
 import leo.main.setting.theme.Theme;
 
 import javax.swing.*;
@@ -15,11 +16,9 @@ public class TextSplitPanel extends TypePanel {
 
         textPanel.setPreferredSize(new Dimension(0, 300));
         textPanel.addLevelListener(new LevelListener() {
-
             @Override
             public void event(LevelEvent e) {
-                System.out.println("LEVEL-" + e.getLevel());
-
+                Config.config().getProps().setProperty("level", Integer.toString(e.getLevel() + 1));
                 translateTextPanel.nextLevel();
             }
         });

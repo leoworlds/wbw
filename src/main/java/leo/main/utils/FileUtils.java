@@ -25,7 +25,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @UtilityClass
 public class FileUtils {
 
-    private static final String PATH = "src/main/resources/";
+    public static final String PATH = "src/main/resources/";
 
     @SneakyThrows
     public static List<String> read(String fileName) {

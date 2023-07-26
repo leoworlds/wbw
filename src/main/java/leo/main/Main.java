@@ -8,6 +8,7 @@ import leo.main.dictionary.my.CharDictionary;
 import leo.main.setting.theme.Theme;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
@@ -67,6 +68,13 @@ public class Main {
                 @Override
                 public void windowLostFocus(WindowEvent e) {
                     typePanel.setPause(true);
+                }
+            });
+
+            frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    Config.config().store();
                 }
             });
 

@@ -298,11 +298,6 @@ public class TextPanel extends TypeComponent {
     }
 
     private void finishLevel() {
-        levelListenerList.forEach(levelListener -> levelListener.event(new LevelEvent() {
-            @Override
-            public int getLevel() {
-                return level;
-            }
-        }));
+        levelListenerList.forEach(levelListener -> levelListener.event(() -> level));
     }
 }

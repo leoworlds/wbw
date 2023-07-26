@@ -114,4 +114,11 @@ public final class Util {
         return FontConfig.getFontConfig().getPlainTextFont().getStringBounds(string, FONT_RENDER_CONTEXT);
     }
 
+    public static void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+    }
 }

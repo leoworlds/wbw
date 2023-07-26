@@ -13,10 +13,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 import static leo.main.Util.SPACE;
+import static leo.main.Util.sleep;
 
 public class TextPanel extends TypePanel {
 
@@ -75,7 +80,7 @@ public class TextPanel extends TypePanel {
 
         texts = FileUtils.read(fileName);
         text = texts.get(level);
-        dirtyWords = Arrays.asList(text.split(SPACE));
+        dirtyWords = Arrays.stream(text.split(SPACE)).collect(Collectors.toList());
 
         setFocusable(true);
         requestFocusInWindow();
@@ -130,12 +135,29 @@ public class TextPanel extends TypePanel {
                     event();
                 }
 
-                if (text.length() <= position && texts.size() > level + 1) {
-                    if (mistakeCounter == 0) {
-                        text = texts.get(++level);
-                    }
-                    mistakePosition = mistakeCounter = position = typedWordCounter = 0;
-                    typedWord = typed = "";
+                if ((text.length() <= position && texts.size() > level + 1) || e.getKeyChar() == KeyEvent.VK_ENTER) {
+                    text = texts.get(++level);
+
+                    new Thread(() -> {
+                        do {
+                            sleep(1);
+                            dirtyWords.remove(0);
+                            lines = Util.split(dirtyWords, getWidth());
+                            repaint();
+                        } while(!dirtyWords.isEmpty());
+
+                        mistakePosition = mistakeCounter = position = typedWordCounter = 0;
+                        typedWord = typed = "";
+
+                        for (String s : text.split(SPACE)) {
+                            sleep(10);
+                            dirtyWords.add(s);
+                            lines = Util.split(dirtyWords, getWidth());
+                            repaint();
+                        }
+
+                        lines = Util.split(dirtyWords, getWidth());
+                    }).start();
                 }
 
                 repaint();
@@ -145,6 +167,22 @@ public class TextPanel extends TypePanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+
+//                if (e.getButton() == 2) {
+//                    BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+//                    Graphics2D g = image.createGraphics();
+//                    printAll(g);
+//                    g.dispose();
+//
+//                    image.setRGB(0, 0, Color.WHITE.getRGB());
+//
+//                    try {
+//                        ImageIO.write(image, "png", new File("my_panel.png"));
+//                    } catch (IOException e1) {
+//                        e1.printStackTrace();
+//                    }
+//                    return;
+//                }
 
                 if (e.getButton() == 3) {
                     mainPopup.show(TextPanel.this, e.getX(), e.getY());

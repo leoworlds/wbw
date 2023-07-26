@@ -129,7 +129,7 @@ public class TextPanel extends TypeComponent {
                     event();
                 }
 
-                if ((text.length() <= position && texts.size() > level + 1) || e.getKeyChar() == KeyEvent.VK_ENTER) {
+                if (text.length() <= position && texts.size() > level + 1) {
                     text = texts.get(++level);
 
                     new Thread(() -> {

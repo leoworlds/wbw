@@ -167,23 +167,6 @@ public class TextPanel extends TypePanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-
-//                if (e.getButton() == 2) {
-//                    BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
-//                    Graphics2D g = image.createGraphics();
-//                    printAll(g);
-//                    g.dispose();
-//
-//                    image.setRGB(0, 0, Color.WHITE.getRGB());
-//
-//                    try {
-//                        ImageIO.write(image, "png", new File("my_panel.png"));
-//                    } catch (IOException e1) {
-//                        e1.printStackTrace();
-//                    }
-//                    return;
-//                }
-
                 if (e.getButton() == 3) {
                     mainPopup.show(TextPanel.this, e.getX(), e.getY());
                     return;
@@ -292,9 +275,7 @@ public class TextPanel extends TypePanel {
     }
 
     @Override
-    public void setPause(boolean pause) {
-        //todo
-    }
+    public void setPause(boolean pause) {}
 
     private void event() {
         completedListenerList.forEach(completedListener -> completedListener.completed(new CompletedEvent() {

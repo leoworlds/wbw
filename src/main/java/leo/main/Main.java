@@ -45,18 +45,6 @@ public class Main {
 
             typePanel.addCompletedListener(e -> {
                 frame.setTitle((e.completed() <= 0 && e.mistake() == 0) ? TITLE : TITLE + "  +" + e.getStatistic());
-
-                if (e.completed() >= Config.getComplete()) {
-                    typePanel.setPause(true);
-                    new Thread(() -> {
-                        try {
-                            Thread.sleep(Config.config().getProps().getProperty("delay.before.exit", 0));
-                            System.exit(0);
-                        } catch (InterruptedException ex) {
-                            Thread.currentThread().interrupt();
-                        }
-                    }).start();
-                }
             });
 
             frame.addWindowFocusListener(new WindowFocusListener() {

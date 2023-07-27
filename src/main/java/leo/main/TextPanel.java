@@ -140,7 +140,7 @@ public class TextPanel extends TypeComponent {
                         switchLevel();
                         finishLevel();
                     } else {
-                        FileUtils.playWord("_its_not_your_fault_lets_try_again");
+                        FileUtils.playWord(Math.random() < 0.5 ? "_its_not_your_fault" : "_lets_try_again");
                         resetCursor();
                     }
                 }

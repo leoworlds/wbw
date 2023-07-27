@@ -129,31 +129,18 @@ public class TextPanel extends TypeComponent {
                     event();
                 }
 
+                //todo
+                int maxMistake = dirtyWords.size() * Config.getMistakeMax()/100;
+                System.out.println("maxMistake=" + maxMistake);
+
                 if (text.length() <= position && texts.size() > level + 1) {
-                    text = texts.get(++level);
-
-                    new Thread(() -> {
-                        do {
-                            sleep(1);
-                            dirtyWords.remove(0);
-                            lines = Util.split(dirtyWords, getWidth());
-                            repaint();
-                        } while(!dirtyWords.isEmpty());
-
-                        mistakePosition = mistakeCounter = position = typedWordCounter = 0;
-                        typedWord = typed = "";
-
-                        for (String s : text.split(SPACE)) {
-                            sleep(10);
-                            dirtyWords.add(s);
-                            lines = Util.split(dirtyWords, getWidth());
-                            repaint();
-                        }
-
-                        lines = Util.split(dirtyWords, getWidth());
-                    }).start();
-
-                    finishLevel();
+                    if (mistakeCounter <= maxMistake) {
+                        text = texts.get(++level);
+                        switchLevel();
+                        finishLevel();
+                    } else {
+                        resetCursor();
+                    }
                 }
 
                 repaint();
@@ -212,6 +199,42 @@ public class TextPanel extends TypeComponent {
                 repaint();
             }
         });
+    }
+
+    private void switchLevel() {
+        new Thread(() -> {
+            do {
+                sleep(1);
+                dirtyWords.remove(0);
+                lines = Util.split(dirtyWords, getWidth());
+                repaint();
+            } while (!dirtyWords.isEmpty());
+
+            mistakePosition = mistakeCounter = position = typedWordCounter = 0;
+            typedWord = typed = "";
+
+            for (String s : text.split(SPACE)) {
+                sleep(10);
+                dirtyWords.add(s);
+                lines = Util.split(dirtyWords, getWidth());
+                repaint();
+            }
+
+            lines = Util.split(dirtyWords, getWidth());
+        }).start();
+    }
+
+    private void resetCursor() {
+        new Thread(() -> {
+            do {
+                sleep(1);
+                position--;
+                repaint();
+            } while (position > 0);
+
+            mistakePosition = mistakeCounter = position = typedWordCounter = 0;
+            typedWord = typed = "";
+        }).start();
     }
 
     @Override

@@ -40,4 +40,8 @@ public class Config {
     public static Integer getComplete() {
         return Integer.valueOf(Config.config().getProps().getProperty("complete", "100"));
     }
+
+    public static Integer getMistakeMax() {
+        return Integer.valueOf(Config.config().getProps().getProperty("mistake.max", "10"));
+    }
 }

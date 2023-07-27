@@ -6,6 +6,8 @@ import leo.main.utils.FileUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +29,14 @@ public class TranslateTextPanel extends JComponent {
         texts = FileUtils.read(Config.config().getProps().getProperty("file_ua"));
         text = texts.get(level);
         dirtyWords = Arrays.asList(text.split(SPACE));
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                lines = Util.split(dirtyWords, getWidth());
+                repaint();
+            }
+        });
     }
 
     @Override

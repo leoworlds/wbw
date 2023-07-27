@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -139,6 +140,7 @@ public class TextPanel extends TypeComponent {
                         switchLevel();
                         finishLevel();
                     } else {
+                        FileUtils.playWord("_its_not_your_fault_lets_try_again");
                         resetCursor();
                     }
                 }

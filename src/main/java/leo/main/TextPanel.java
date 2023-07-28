@@ -136,14 +136,10 @@ public class TextPanel extends TypeComponent {
                 if (text.length() <= position && texts.size() > level + 1) {
                     if (mistakeCounter <= maxMistake) {
                         text = texts.get(++level);
-                        //todo
-                        FileUtils.playWord(
-                                Arrays.asList("_lucky", "_good_job").get(Util.randomInt(0, 1)));
+                        FileUtils.playWord(Util.getRandom(Config.config().getSoundLevelSuccesses()));
                         switchLevel();
                     } else {
-                        //todo
-                        FileUtils.playWord(
-                                Arrays.asList("_its_not_your_fault", "_lets_try_again", "_shit").get(Util.randomInt(0, 2)));
+                        FileUtils.playWord(Util.getRandom(Config.config().getSoundLevelFails()));
                         resetCursor();
                     }
                 }

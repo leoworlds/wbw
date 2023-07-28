@@ -121,4 +121,8 @@ public final class Util {
             Thread.currentThread().interrupt();
         }
     }
+
+    public static <T> T getRandom(List<T> t) {
+        return t.get(new Random().nextInt(t.size()));
+    }
 }

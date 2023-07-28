@@ -1,10 +1,13 @@
 package leo.main.config;
 
+import leo.main.Util;
 import leo.main.utils.FileUtils;
 import lombok.SneakyThrows;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class Config {
 
@@ -43,5 +46,13 @@ public class Config {
 
     public static Integer getMistakeMax() {
         return Integer.valueOf(Config.config().getProps().getProperty("mistake.max", "10"));
+    }
+
+    public List<String> getSoundLevelSuccesses() {
+        return Arrays.asList(Config.config().getProps().getProperty("sound.level.successes").split(","));
+    }
+
+    public List<String> getSoundLevelFails() {
+        return Arrays.asList(Config.config().getProps().getProperty("sound.level.fails").split(","));
     }
 }

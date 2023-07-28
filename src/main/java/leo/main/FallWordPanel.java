@@ -114,6 +114,13 @@ public class FallWordPanel extends TypePanel implements Runnable {
             public int speed() {
                 return 0;
             }
+
+            @Override
+            public String getInfo() {
+                return "+ " + completed() + " -" +
+                        (missed() + mistake()) + " " +
+                        100*completed() / (missed() + mistake() + completed());
+            }
         }));
     }
 

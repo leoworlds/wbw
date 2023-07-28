@@ -34,6 +34,7 @@ public class TextPanel extends TypeComponent {
     private int mistakeCounter;
     private int position;
     private int mistakePosition;
+    private int maxMistake;
 
     private long startTime;
 
@@ -76,6 +77,8 @@ public class TextPanel extends TypeComponent {
         texts = FileUtils.read(Config.config().getProps().getProperty("file_en"));
         text = texts.get(level);
         dirtyWords = Arrays.stream(text.split(SPACE)).collect(Collectors.toList());
+
+        maxMistake = dirtyWords.size() * Config.getMistakeMax()/100;
 
         setFocusable(true);
         requestFocusInWindow();
@@ -130,17 +133,17 @@ public class TextPanel extends TypeComponent {
                     event();
                 }
 
-                //todo
-                int maxMistake = dirtyWords.size() * Config.getMistakeMax()/100;
-                System.out.println("maxMistake=" + maxMistake);
-
                 if (text.length() <= position && texts.size() > level + 1) {
                     if (mistakeCounter <= maxMistake) {
                         text = texts.get(++level);
+                        //todo
+                        FileUtils.playWord(
+                                Arrays.asList("_lucky", "_good_job").get(Util.randomInt(0, 1)));
                         switchLevel();
-                        finishLevel();
                     } else {
-                        FileUtils.playWord(Math.random() < 0.5 ? "_its_not_your_fault" : "_lets_try_again");
+                        //todo
+                        FileUtils.playWord(
+                                Arrays.asList("_its_not_your_fault", "_lets_try_again", "_shit").get(Util.randomInt(0, 2)));
                         resetCursor();
                     }
                 }
@@ -222,7 +225,10 @@ public class TextPanel extends TypeComponent {
                 repaint();
             }
 
+            maxMistake = text.split(SPACE).length * Config.getMistakeMax()/100;
             lines = Util.split(dirtyWords, getWidth());
+
+            finishLevel();
         }).start();
     }
 
@@ -318,6 +324,16 @@ public class TextPanel extends TypeComponent {
             @Override
             public int speed() {
                 return (int)(1000*60*position / (System.currentTimeMillis() - startTime));
+            }
+
+            @Override
+            public String getInfo() {
+                return String.format(" +%s -%s (-%s) %s x%s",
+                        completed(),
+                        mistake(),
+                        maxMistake,
+                        100*completed() / (mistake() + completed()) + "%",
+                        speed());
             }
         }));
     }

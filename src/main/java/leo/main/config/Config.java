@@ -49,15 +49,19 @@ public class Config {
     }
 
     public List<String> getSoundLevelSuccesses() {
-        return Arrays.asList(Config.config().getProps().getProperty("sound.level.successes").split(","));
+        return getList("sound.level.successes");
     }
 
     public List<String> getSoundLevelFails() {
-        return Arrays.asList(Config.config().getProps().getProperty("sound.level.fails").split(","));
+        return getList("sound.level.fails");
     }
 
     //todo ","
     public List<String> getSoundMistakes() {
-        return Arrays.asList(Config.config().getProps().getProperty("sound.mistakes").split(","));
+        return getList("sound.mistakes");
+    }
+
+    public List<String> getList(String propertyName) {
+        return Arrays.asList(Config.config().getProps().getProperty(propertyName).split(","));
     }
 }

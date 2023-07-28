@@ -55,4 +55,9 @@ public class Config {
     public List<String> getSoundLevelFails() {
         return Arrays.asList(Config.config().getProps().getProperty("sound.level.fails").split(","));
     }
+
+    //todo ","
+    public List<String> getSoundMistakes() {
+        return Arrays.asList(Config.config().getProps().getProperty("sound.mistakes").split(","));
+    }
 }

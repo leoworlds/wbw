@@ -125,7 +125,7 @@ public class TextPanel extends TypeComponent {
                         typedWord += newChar;
                     }
                 } else {
-                    Toolkit.getDefaultToolkit().beep();
+                    FileUtils.playWord(Util.getRandom(Config.config().getSoundMistakes()));
                     if (mistakePosition != position) {
                         mistakeCounter++;
                         mistakePosition = position;

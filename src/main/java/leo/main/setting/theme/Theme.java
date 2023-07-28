@@ -30,7 +30,7 @@ public class Theme {
     }
 
     public static Color getColor(String name) {
-        Properties props  = Config.config().getProps();
+        Properties props = Config.config().getProps();
         return Color.decode(props.getProperty(THEME + DOT + props.getProperty(THEME) + DOT + name));
     }
 }

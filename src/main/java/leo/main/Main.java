@@ -14,7 +14,7 @@ import java.awt.event.WindowFocusListener;
 
 public class Main {
 
-    private static final String TITLE = "Word by Word";
+    private static final String TITLE = "wBw";
     private static final boolean isSymbol = Boolean.parseBoolean(Config.config().getProps().getProperty("symbol", "true"));
 
     public static void main(String ... strings) {

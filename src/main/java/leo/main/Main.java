@@ -44,7 +44,7 @@ public class Main {
                     : new TextSplitPanel();
 
             typePanel.addCompletedListener(e -> {
-                frame.setTitle((e.completed() <= 0 && e.mistake() == 0) ? TITLE : TITLE + e.getInfo());
+                frame.setTitle((e.completed() <= 0 && e.mistake() == 0) ? TITLE : TITLE + " " + e.getInfo());
             });
 
             frame.addWindowFocusListener(new WindowFocusListener() {

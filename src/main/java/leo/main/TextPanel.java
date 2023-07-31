@@ -324,7 +324,7 @@ public class TextPanel extends TypeComponent {
 
             @Override
             public String getInfo() {
-                return String.format(" {%s} +%s -%s (-%s) %s x%s",
+                return String.format("{%s} +%s -%s (-%s) %s x%s",
                         level,
                         completed(),
                         mistake(),

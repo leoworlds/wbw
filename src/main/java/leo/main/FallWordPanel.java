@@ -1,9 +1,11 @@
 package leo.main;
 
+import leo.main.config.Config;
 import leo.main.dictionary.Dictionary;
 import leo.main.dictionary.WordEntity;
 import leo.main.setting.theme.FontConfig;
 import leo.main.setting.theme.Theme;
+import leo.main.utils.FileUtils;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -83,7 +85,7 @@ public class FallWordPanel extends TypePanel implements Runnable {
 
     private void mistake() {
         cells.peek().cleanTyped();
-        Toolkit.getDefaultToolkit().beep();
+        FileUtils.playWord(Util.getRandom(Config.config().getSoundMistakes()));
         mistakes++;
         event();
     }

@@ -86,7 +86,7 @@ public class TextPanel extends TypeComponent {
         hintPopup.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                editPopup.showText(selectedWord.getWord(), mouseX, mouseY);
+                editPopup.showText(selectedWord.getWord(), mouseX, mouseY + 16);
             }
         });
 
@@ -181,7 +181,7 @@ public class TextPanel extends TypeComponent {
                 if (wordEntity.getDefinitions() != null) {
                     hintPopup.showText(wordEntity.getDefinitions().get(0), mouseX, mouseY + 16);
                 } else {
-                    editPopup.showText(selectedWord.getWord(), mouseX, mouseY);
+                    editPopup.showText(selectedWord.getWord(), mouseX, mouseY + 16);
                 }
 
                 repaint();
